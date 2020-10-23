@@ -94,7 +94,7 @@ public class BankAccount {
 		accountData.append(interestRate);
 		return accountData.toString();
 	}
-	public static BankAccount readFromString(String accountData)throws ParseException, NumberFormatException {
+	public static BankAccount readFromString(String accountData) throws ParseException, NumberFormatException {
 	    try {
 	    	String [] holding = accountData.split(",");
 	    	SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
