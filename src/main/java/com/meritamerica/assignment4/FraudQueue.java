@@ -14,8 +14,8 @@ public class FraudQueue {
 		queue.add(transaction);
 	}
 	public Transaction getTransaction() {
-		Transaction t = new Transaction();
-		return t;	
+		Transaction t;
+		return null;	
 	}
 
 }

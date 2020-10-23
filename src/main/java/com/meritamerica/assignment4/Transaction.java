@@ -50,14 +50,17 @@ public abstract class Transaction {
 	
 	public static Transaction readFromString(String transactionDataString) throws 
 		ParseException, NumberFormatException{
+		Transaction t;
 		try {
-	    	String [] holding = accountData.split(",");
+	    	String [] holding = transactionDataString.split(",");
 	    	SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 	    	Long accountNumber = Long.parseLong(holding[0]);
 	        double balance = Double.parseDouble(holding[1]);
 	        double interestRate = Double.parseDouble(holding[2]);
 	        Date accountOpenedOn = date.parse(holding[3]);
-	        return new BankAccount(accountNumber, balance, interestRate, accountOpenedOn);
+	        t.setTransactionDate(accountOpenedOn);
+	        t.setAmount(balance);
+	        return t;
 	    		
 	    }
 	    catch(ParseException  e) {
@@ -74,7 +77,7 @@ public abstract class Transaction {
 		ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException;
 	
 	public boolean isProcessedByFraudTeam() {
-		
+		return true;
 	}
 	
 	public void setProcessedByFraudTeam(boolean isProcessed) {
