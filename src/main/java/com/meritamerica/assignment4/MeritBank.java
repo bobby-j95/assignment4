@@ -109,26 +109,42 @@ public class MeritBank {
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			Long nextAccountNumber = Long.valueOf(bufferedReader.readLine());
 			int holdOfferNum = Integer.valueOf(bufferedReader.readLine());
+
 			for (int i = 0; i < holdOfferNum; i++) {
 				offering = Arrays.copyOf(offering, offering.length + 1);
 				offering[offering.length - 1] = CDOffering.readFromString(bufferedReader.readLine());
 			}
+
 			int numOfAcctHld = Integer.valueOf(bufferedReader.readLine());
 			AccountHolder[] newAccountHolders = new AccountHolder[numOfAcctHld];
 			for (int i = 0; i < numOfAcctHld; i++) {
+
 				AccountHolder acctH = AccountHolder.readFromString(bufferedReader.readLine());
 				int numOfChecking = Integer.valueOf(bufferedReader.readLine());
 				for (int j = 0; j < numOfChecking; j++) {
 					acctH.addCheckingAccount(CheckingAccount.readFromString(bufferedReader.readLine()));
 				}
+
+				int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+				for (int a = 0; a < numOfTransactions; a++) {
+					Transaction.readFromString(bufferedReader.readLine());
+				}
+
 				int numOfSavings = Integer.valueOf(bufferedReader.readLine());
 				for (int k = 0; k < numOfSavings; k++) {
 					acctH.addSavingsAccount(SavingsAccount.readFromString(bufferedReader.readLine()));
 				}
+
+				numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+				for (int b = 0; b < numOfTransactions; b++) {
+					Transaction.readFromString(bufferedReader.readLine());
+				}
+
 				int numOfCD = Integer.valueOf(bufferedReader.readLine());
 				for (int m = 0; m < numOfCD; m++) {
 					acctH.addCDAccount(CDAccount.readFromString(bufferedReader.readLine()));
 				}
+
 				newAccountHolders[i] = acctH;
 			}
 			setNextAccountNumber(nextAccountNumber);
@@ -185,22 +201,26 @@ public class MeritBank {
 				bufferedWriter.newLine();
 				bufferedWriter.write(String.valueOf(accountHolderArray[j].getCheckingAccounts().length));
 				bufferedWriter.newLine();
+
 				for (int k = 0; k < accountHolderArray[j].getCheckingAccounts().length; k++) {
 					bufferedWriter.write(accountHolderArray[j].getCheckingAccounts()[k].writeToString());
 					bufferedWriter.newLine();
 				}
+
 				bufferedWriter.write(String.valueOf(accountHolderArray[j].getSavingsAccounts().length));
 				bufferedWriter.newLine();
 				for (int m = 0; m < accountHolderArray[j].getSavingsAccounts().length; m++) {
 					bufferedWriter.write(accountHolderArray[j].getSavingsAccounts()[m].writeToString());
 					bufferedWriter.newLine();
 				}
+
 				bufferedWriter.write(String.valueOf(accountHolderArray[j].getCDAccounts().length));
 				bufferedWriter.newLine();
 				for (int n = 0; n < accountHolderArray[j].getCDAccounts().length; n++) {
 					bufferedWriter.write(accountHolderArray[j].getCDAccounts()[n].writeToString());
 					bufferedWriter.newLine();
 				}
+
 			}
 			writer.close();
 			return true;
