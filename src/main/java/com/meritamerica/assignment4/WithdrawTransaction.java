@@ -4,9 +4,8 @@ import java.util.Date;
 
 public class WithdrawTransaction extends Transaction{
 
-	private BankAccount targetAccount;
+	protected BankAccount targetAccount;
 	private double amount;
-	
 	
 	@Override
 	public void process() throws NegativeAmountException, 
@@ -29,8 +28,5 @@ public class WithdrawTransaction extends Transaction{
 		this.amount = amount;
 		this.openDate = new Date();
 	}
- @Override
- 	public BankAccount getTargetAccount() {
-	 return targetAccount;
- }
+
 }

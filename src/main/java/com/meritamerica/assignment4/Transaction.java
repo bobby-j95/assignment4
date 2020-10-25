@@ -6,11 +6,12 @@ import java.util.Date;
 
 public abstract class Transaction {
 
-	protected static BankAccount sourceAccount;
-	protected static BankAccount targetAccount;
+	protected BankAccount sourceAccount;
+	protected BankAccount targetAccount;
 	protected double amount;
 	protected String reason;
 	protected Date openDate;
+	protected boolean isProcessed;
 
 	public BankAccount getSourceAccount() {
 		return sourceAccount;
@@ -64,28 +65,29 @@ public abstract class Transaction {
 	public static Transaction readFromString(String transactionDataString)
 			throws ParseException, NumberFormatException {
 
+		
 		try {
 			String[] holding = transactionDataString.split(",");
 			SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-			Long accountNumber1 = Long.parseLong(holding[0]);
-			Long accountNumber2 = Long.parseLong(holding[1]);
+			Long sourceAccountNum = Long.parseLong(holding[0]);
+			Long targetAccountNum = Long.parseLong(holding[1]);
 			double balance = Double.parseDouble(holding[2]);
 			Date accountOpenedOn = date.parse(holding[3]);
-			if (accountNumber1 < 0) {
+			BankAccount tA = MeritBank.getBankAccount(targetAccountNum);
+			BankAccount sA = MeritBank.getBankAccount(sourceAccountNum);
+			if (sourceAccountNum < 0) {
 				if (balance < 0) {
-
-					WithdrawTransaction wt = new WithdrawTransaction(targetAccount, balance);
+					WithdrawTransaction wt = new WithdrawTransaction(tA, balance);
 					wt.setTransactionDate(accountOpenedOn);
 					return wt;
 				} else {
-					DepositTransaction dt = new DepositTransaction(targetAccount, balance);
+					DepositTransaction dt = new DepositTransaction(tA, balance);
 					dt.setTransactionDate(accountOpenedOn);
 					return dt;
 				}
 			} else {
-				TransferTransaction t = new TransferTransaction(sourceAccount, targetAccount, balance);
+				TransferTransaction t = new TransferTransaction(sA, tA, balance);
 				t.setTransactionDate(accountOpenedOn);
-
 			}
 			return null;
 
@@ -102,11 +104,11 @@ public abstract class Transaction {
 			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException;
 
 	public boolean isProcessedByFraudTeam() {
-		return true;
+		return isProcessed;
 	}
 
 	public void setProcessedByFraudTeam(boolean isProcessed) {
-		
+		this.isProcessed = isProcessed;
 	}
 
 	public String getRejectionReason() {
