@@ -6,11 +6,11 @@ import java.util.Date;
 
 public abstract class Transaction {
 
-	private BankAccount sourceAccount;
-	private BankAccount targetAccount;
-	private double amount;
-	private String reason;
-	private Date openDate;
+	protected static BankAccount sourceAccount;
+	protected static BankAccount targetAccount;
+	protected double amount;
+	protected String reason;
+	protected Date openDate;
 
 	public BankAccount getSourceAccount() {
 		return sourceAccount;
@@ -45,7 +45,20 @@ public abstract class Transaction {
 	}
 
 	public String writeToString() {
-		return null;
+		StringBuilder finalString = null;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		if (sourceAccount == null) {
+			finalString.append(-1);
+		} else {
+			finalString.append(sourceAccount.getAccountNumber());
+		}
+		finalString.append(",");
+		finalString.append(targetAccount.getAccountNumber());
+		finalString.append(",");
+		finalString.append(amount);
+		finalString.append(",");
+		finalString.append(dateFormat.format(openDate));
+		return finalString.toString();
 	}
 
 	public static Transaction readFromString(String transactionDataString)
@@ -60,14 +73,19 @@ public abstract class Transaction {
 			Date accountOpenedOn = date.parse(holding[3]);
 			if (accountNumber1 < 0) {
 				if (balance < 0) {
-					WithdrawTransaction t = new WithdrawTransaction(null, balance);
-					return t;
+
+					WithdrawTransaction wt = new WithdrawTransaction(targetAccount, balance);
+					wt.setTransactionDate(accountOpenedOn);
+					return wt;
 				} else {
-					DepositTransaction t = new DepositTransaction(null, balance);
-					return t;
+					DepositTransaction dt = new DepositTransaction(targetAccount, balance);
+					dt.setTransactionDate(accountOpenedOn);
+					return dt;
 				}
 			} else {
-				TransferTransaction t = new TransferTransaction(null, null, balance); //hard code sourceAccount and targetAccount
+				TransferTransaction t = new TransferTransaction(sourceAccount, targetAccount, balance);
+				t.setTransactionDate(accountOpenedOn);
+
 			}
 			return null;
 
@@ -88,7 +106,7 @@ public abstract class Transaction {
 	}
 
 	public void setProcessedByFraudTeam(boolean isProcessed) {
-
+		
 	}
 
 	public String getRejectionReason() {

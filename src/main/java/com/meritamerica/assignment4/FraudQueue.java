@@ -1,16 +1,15 @@
 package com.meritamerica.assignment4;
-
 import java.util.ArrayList;
 
 public class FraudQueue {
 	
-	private ArrayList<Transaction> queue;
+	private static ArrayList<Transaction> queue; // this should not be static 
 	
 	public FraudQueue() {
 		
 	}
 	
-	public void addTransaction(Transaction transaction) {
+	public static void addTransaction(Transaction transaction) { // this should not be static 
 		queue.add(transaction);
 	}
 	public Transaction getTransaction() {

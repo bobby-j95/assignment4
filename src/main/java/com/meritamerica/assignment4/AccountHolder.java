@@ -112,7 +112,10 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	 * Adds new Checking Account if the total is below $250,000 before adding for
 	 * checking and savings combined. created by Robert J
 	 */
-	public CheckingAccount addCheckingAccount(double openingBalance) {
+	public CheckingAccount addCheckingAccount(double openingBalance)  throws ExceedsCombinedBalanceLimitException{ 
+		if (getCombinedBalance() > 250000) {
+			 throw new ExceedsCombinedBalanceLimitException();
+			}
 		CheckingAccount checking = new CheckingAccount(openingBalance);
 		CheckingAccount[] tempArray = new CheckingAccount[checkingAccount.length + 1];
 		for (int i = 0; i < this.checkingAccount.length; i++) {
@@ -129,15 +132,21 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return checking;
 		}
+		checking.addTransaction(new WithdrawTransaction(checking, openingBalance)) ;
 		checkingAccount = tempArray;
 		return checking;
+	
 	}
+	
 
 	/*
 	 * Adds new Checking Account if the total is below $250,000 before adding for
 	 * checking and savings combined. created by Robert J
 	 */
-	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
+	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)  throws ExceedsCombinedBalanceLimitException{
+		if (getCombinedBalance() > 250000) {
+			 throw new ExceedsCombinedBalanceLimitException();
+		}
 		CheckingAccount[] tempArray = new CheckingAccount[this.checkingAccount.length + 1];
 		for (int i = 0; i < this.checkingAccount.length; i++) {
 			tempArray[i] = this.checkingAccount[i];
@@ -152,6 +161,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return checkingAccount;
 		}
+		checkingA.addTransaction(new WithdrawTransaction(checking, openingBalance)) ;
 		this.checkingAccount = tempArray;
 		return checkingAccount;
 	}

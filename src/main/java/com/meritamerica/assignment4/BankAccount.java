@@ -16,6 +16,7 @@ abstract class BankAccount {
 	public double interestRate;
 	public long accountNumber;
 	Date openDate;
+	public List<Transaction> transactions;
 
 	// first constructor without account number
 	public BankAccount(double balance, double interestRate) {
@@ -84,7 +85,7 @@ abstract class BankAccount {
 
 	// returns the value of the account after a set amount of years
 	public double futureValue(int years) {
-		return (balance * (Math.pow((1 + interestRate), years)));
+		return MeritBank.recursiveFutureValue( balance, years, interestRate);
 	}
 
 	public String writeToString() {
@@ -120,10 +121,11 @@ abstract class BankAccount {
 //			
 //	}
 	public void addTransaction(Transaction transaction) {
+		transactions.add(transaction);
 		
 	}
 	public List<Transaction> getTransactions(){
-		return null;
+		return transactions;
 		
 	}
 }

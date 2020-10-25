@@ -24,6 +24,7 @@ public class MeritBank {
 	private static AccountHolder[] accountHolderArray = new AccountHolder[0];
 	private static CDOffering[] cdOffering = new CDOffering[5];
 	private static double totalValue = 0;
+	private static FraudQueue fraudQueue = new FraudQueue();
 
 	// This adds another AccountHolder to the array
 	static void addAccountHolder(AccountHolder accountHolder) {
@@ -100,8 +101,8 @@ public class MeritBank {
 	}
 
 	// returns the future value of what the user wants based off of parameters
-	static double futureValue(double presentValue, double interestRate, int term) {
-		return (presentValue * (Math.pow((1 + interestRate), term)));
+	static double futureValue(double amount, double interestRate, int term) {
+		return recursiveFutureValue(amount, term, interestRate);
 	}
 
 	public static boolean readFromFile(String fileName) {
@@ -233,40 +234,65 @@ public class MeritBank {
 
 	public static double recursiveFutureValue(double amount, int years, double interestRate) {
 		if (years > 0) {
-			double baseAmount = recursiveFutureValue(amount, years-1,interestRate);
+			double baseAmount = recursiveFutureValue(amount, years - 1, interestRate);
 			double newAmount = baseAmount + (baseAmount * interestRate);
 			return newAmount;
 		}
 		return amount;
-	
+
 	}
-	public static boolean processTransaction(Transaction transaction) {
-		if (transaction.getRejectionReason() == null) {
-			
-			
+
+	public static boolean processTransaction(Transaction transaction)
+			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException { // where
+																													// do
+																													// I
+																													// throw
+																													// ExceedsFraudSuspicionLimitException
+		if (transaction.getAmount() > 1000) {
+			getFraudQueue().addTransaction(transaction);
+			throw new ExceedsFraudSuspicionLimitException();
 		}
-		return false;
-			
-////		If transaction does not violate any constraints, deposit/withdraw values from the relevant 
-//		BankAccounts and add the transaction to the relevant BankAccounts
-////		If the transaction violates any of the basic constraints 
-//		(negative amount, exceeds available balance) the relevant exception should be thrown and the processing should terminate
-////		If the transaction violates the $1,000 suspicion limit, it should simply be added to the FraudQueue for future processing
+		if (transaction.getAmount() > 0) {
+			throw new NegativeAmountException();
+		}
+		if (transaction instanceof WithdrawTransaction && transaction.getAmount()<transaction.getTargetAccount().getBalance()) {
+			throw new ExceedsAvailableBalanceException();
+		}
+		if (transaction.getAmount() < transaction.getSourceAccount().getBalance()) {
+			throw new ExceedsAvailableBalanceException();
 
+		}
+		transaction.process();
+		transaction.getSourceAccount().addTransaction(transaction);
+		transaction.getTargetAccount().addTransaction(transaction);
 
+		return true;
 	}
 
 	public static FraudQueue getFraudQueue() {
-		return null;
+		return fraudQueue;
 
 	}
 
 	public static BankAccount getBankAccount(long accountId) {
+		for (AccountHolder accountHolder : accountHolderArray) {
+			for (BankAccount bankAccount : accountHolder.getSavingsAccounts()) {
+				if (bankAccount.getAccountNumber() == accountId) {
+					return bankAccount;
+				}
+			}
+			for (BankAccount bankAccount : accountHolder.getCheckingAccounts()) {
+				if (bankAccount.getAccountNumber() == accountId) {
+					return bankAccount;
+				}
+			}
+			for (BankAccount bankAccount : accountHolder.getCDAccounts()) {
+				if (bankAccount.getAccountNumber() == accountId) {
+					return bankAccount;
+				}
+			}
+
+		}
 		return null;
-
-	}	
-	
-
-
-
+	}
 }
