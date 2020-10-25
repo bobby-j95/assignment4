@@ -7,8 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /*This is the MeritBank part of the assignment.
  * This interacts with CDOffering.java and AccountHolder.java
@@ -227,7 +229,44 @@ public class MeritBank {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	public static double recursiveFutureValue(double amount, int years, double interestRate) {
+		if (years > 0) {
+			double baseAmount = recursiveFutureValue(amount, years-1,interestRate);
+			double newAmount = baseAmount + (baseAmount * interestRate);
+			return newAmount;
+		}
+		return amount;
+	
+	}
+	public static boolean processTransaction(Transaction transaction) {
+		if (transaction.getRejectionReason() == null) {
+			
+			
+		}
+		return false;
+			
+////		If transaction does not violate any constraints, deposit/withdraw values from the relevant 
+//		BankAccounts and add the transaction to the relevant BankAccounts
+////		If the transaction violates any of the basic constraints 
+//		(negative amount, exceeds available balance) the relevant exception should be thrown and the processing should terminate
+////		If the transaction violates the $1,000 suspicion limit, it should simply be added to the FraudQueue for future processing
+
 
 	}
+
+	public static FraudQueue getFraudQueue() {
+		return null;
+
+	}
+
+	public static BankAccount getBankAccount(long accountId) {
+		return null;
+
+	}	
+	
+
+
 
 }

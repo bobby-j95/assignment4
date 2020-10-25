@@ -3,12 +3,13 @@ package com.meritamerica.assignment4;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /*This is the main Bank Account class that will be the parent to the other bank count classes:
  * SavingsAccount, CheckingAccount, and CDAccount
  * Created by: Robert Johns
  */
-public class BankAccount {
+abstract class BankAccount {
 
 	// All private variables needed in the program
 	private double balance;
@@ -93,27 +94,36 @@ public class BankAccount {
 		accountData.append(balance).append(",");
 		accountData.append(interestRate);
 		return accountData.toString();
+		
+		
 	}
-	public static BankAccount readFromString(String accountData) throws ParseException, NumberFormatException {
-	    try {
-	    	String [] holding = accountData.split(",");
-	    	SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-	    	Long accountNumber = Long.parseLong(holding[0]);
-	        double balance = Double.parseDouble(holding[1]);
-	        double interestRate = Double.parseDouble(holding[2]);
-	        Date accountOpenedOn = date.parse(holding[3]);
-	        return new BankAccount(accountNumber, balance, interestRate, accountOpenedOn);
-	    		
-	    }
-	    catch(ParseException  e) {
-	    	e.printStackTrace();
-	    	return null;
-	    }
-	    catch(NumberFormatException e) {
-	    	e.printStackTrace();
-	    	return null;
-	    }
-			
+	
+//	public static BankAccount readFromString(String accountData) throws ParseException, NumberFormatException {
+//	    try {
+//	    	String [] holding = accountData.split(",");
+//	    	SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+//	    	Long accountNumber = Long.parseLong(holding[0]);
+//	        double balance = Double.parseDouble(holding[1]);
+//	        double interestRate = Double.parseDouble(holding[2]);
+//	        Date accountOpenedOn = date.parse(holding[3]);
+//	        return new BankAccount(accountNumber, balance, interestRate, accountOpenedOn);
+//	    		
+//	    }
+//	    catch(ParseException  e) {
+//	    	e.printStackTrace();
+//	    	return null;
+//	    }
+//	    catch(NumberFormatException e) {
+//	    	e.printStackTrace();
+//	    	return null;
+//	    }
+//			
+//	}
+	public void addTransaction(Transaction transaction) {
+		
 	}
-
+	public List<Transaction> getTransactions(){
+		return null;
+		
+	}
 }

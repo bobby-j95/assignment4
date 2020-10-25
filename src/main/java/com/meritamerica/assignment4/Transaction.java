@@ -60,14 +60,14 @@ public abstract class Transaction {
 			Date accountOpenedOn = date.parse(holding[3]);
 			if (accountNumber1 < 0) {
 				if (balance < 0) {
-					WithdrawTransaction t = new WithdrawTransaction(sourceAccount, balance);
+					WithdrawTransaction t = new WithdrawTransaction(null, balance);
 					return t;
 				} else {
-					DepositTransaction t = new DepositTransaction(sourceAccount, balance);
+					DepositTransaction t = new DepositTransaction(null, balance);
 					return t;
 				}
 			} else {
-				TransferTransaction t = new TransferTransaction(sourceAccount, targetAccount, balance);
+				TransferTransaction t = new TransferTransaction(null, null, balance); //hard code sourceAccount and targetAccount
 			}
 			return null;
 
