@@ -6,8 +6,8 @@ import java.util.Date;
 
 public abstract class Transaction {
 
-	private BankAccount sourceAccount;
-	private BankAccount targetAccount;
+	private static BankAccount sourceAccount;
+	private static BankAccount targetAccount;
 	private double amount;
 	private String reason;
 	private Date openDate;
@@ -60,10 +60,10 @@ public abstract class Transaction {
 			Date accountOpenedOn = date.parse(holding[3]);
 			if (accountNumber1 < 0) {
 				if (balance < 0) {
-					WithdrawTransaction t = new WithdrawTransaction(sourceAccount, balance);
+					WithdrawTransaction t = new WithdrawTransaction(targetAccount, balance);
 					return t;
 				} else {
-					DepositTransaction t = new DepositTransaction(sourceAccount, balance);
+					DepositTransaction t = new DepositTransaction(targetAccount, balance);
 					return t;
 				}
 			} else {
@@ -88,7 +88,7 @@ public abstract class Transaction {
 	}
 
 	public void setProcessedByFraudTeam(boolean isProcessed) {
-
+		
 	}
 
 	public String getRejectionReason() {
