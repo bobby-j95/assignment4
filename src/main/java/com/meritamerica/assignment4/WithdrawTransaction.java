@@ -1,5 +1,7 @@
 package com.meritamerica.assignment4;
 
+import java.util.Date;
+
 public class WithdrawTransaction extends Transaction{
 
 	private BankAccount targetAccount;
@@ -24,6 +26,7 @@ public class WithdrawTransaction extends Transaction{
 	public WithdrawTransaction(BankAccount targetAccount, double amount){
 		this.targetAccount = targetAccount;
 		this.amount = amount;
+		this.openDate = new Date();
 	}
 
 }

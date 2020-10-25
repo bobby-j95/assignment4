@@ -1,10 +1,11 @@
 package com.meritamerica.assignment4;
+import java.util.Date;
 
 public class TransferTransaction extends Transaction{
 
-	private BankAccount sourceAccount;
+	/*private BankAccount sourceAccount;
 	private BankAccount targetAccount;
-	private double amount;
+	private double amount;*/
 	
 	@Override
 	public void process() throws NegativeAmountException, 
@@ -27,6 +28,7 @@ public class TransferTransaction extends Transaction{
 		this.sourceAccount = sourceAccount;
 		this.targetAccount = targetAccount;
 		this.amount = amount;
+		this.openDate = new Date();
 	}
 
 }
