@@ -7,6 +7,13 @@ public class TransferTransaction extends Transaction{
 	private BankAccount targetAccount;
 	private double amount;*/
 	
+	public TransferTransaction(BankAccount sourceAccount, BankAccount targetAccount, double amount){
+		this.sourceAccount = sourceAccount;
+		this.targetAccount = targetAccount;
+		this.amount = amount;
+		this.openDate = new Date();
+	}
+	
 	@Override
 	public void process() throws NegativeAmountException, 
 			ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
@@ -16,7 +23,7 @@ public class TransferTransaction extends Transaction{
 			throw new ExceedsFraudSuspicionLimitException();
 		} else if(amount < 0){
 			throw new NegativeAmountException();
-		}else if(amount > targetAccount.getBalance()){
+		}else if(amount > sourceAccount.getBalance()){
 			throw new ExceedsAvailableBalanceException();
 		}else {
 			sourceAccount.withdraw(amount);
@@ -24,11 +31,4 @@ public class TransferTransaction extends Transaction{
 		}
 	}
 	
-	public TransferTransaction(BankAccount sourceAccount, BankAccount targetAccount, double amount){
-		this.sourceAccount = sourceAccount;
-		this.targetAccount = targetAccount;
-		this.amount = amount;
-		this.openDate = new Date();
-	}
-
 }

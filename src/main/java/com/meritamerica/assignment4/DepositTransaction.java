@@ -6,27 +6,25 @@ public class DepositTransaction extends Transaction {
 
 	private BankAccount targetAccount;
 	private double amount;
-	
-	@Override
-	public void process() throws NegativeAmountException, 
-			ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
-		// TODO Auto-generated method stub
-		if(amount >= 1000) { //all if statements are redundant, it was asked to be added in the MeritBank
-			FraudQueue.addTransaction(this);
-			throw new ExceedsFraudSuspicionLimitException();
-		} else if(amount < 0){
-			throw new NegativeAmountException();
-		}else if(amount > targetAccount.getBalance()){
-			throw new ExceedsAvailableBalanceException();
-		}else {
-			targetAccount.deposit(amount);
-		}
-	}
-	
+
 	public DepositTransaction(BankAccount targetAccount, double amount) {
 		this.targetAccount = targetAccount;
 		this.amount = amount;
 		this.openDate = new Date();
+	}
+	
+	@Override
+	public void process()
+			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
+		// TODO Auto-generated method stub
+		if (amount >= 1000) { // all if statements are redundant, it was asked to be added in the MeritBank
+			FraudQueue.addTransaction(this);
+			throw new ExceedsFraudSuspicionLimitException();
+		} else if (amount < 0) {
+			throw new NegativeAmountException();
+		} else {
+			targetAccount.deposit(amount);
+		}
 	}
 
 }

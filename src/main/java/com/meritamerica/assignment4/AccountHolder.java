@@ -144,6 +144,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	 * checking and savings combined. created by Robert J
 	 */
 	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)  throws ExceedsCombinedBalanceLimitException{
+		
 		if (getCombinedBalance() > 250000) {
 			 throw new ExceedsCombinedBalanceLimitException();
 		}
@@ -161,7 +162,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return checkingAccount;
 		}
-		checkingA.addTransaction(new WithdrawTransaction(checking, openingBalance)) ;
+		checkingAccount.addTransaction(new DepositTransaction(checkingAccount, checkingAccount.getBalance())) ;
 		this.checkingAccount = tempArray;
 		return checkingAccount;
 	}
