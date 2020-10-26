@@ -7,10 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /*This is the MeritBank part of the assignment.
  * This interacts with CDOffering.java and AccountHolder.java
@@ -107,11 +108,13 @@ public class MeritBank {
 
 	public static boolean readFromFile(String fileName) {
 		CDOffering offering[] = new CDOffering[0];
+		Set<String> allTransactions = new HashSet<String>();
 		try {
 			FileReader reader = new FileReader(fileName);
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			Long nextAccountNumber = Long.valueOf(bufferedReader.readLine());
 			int holdOfferNum = Integer.valueOf(bufferedReader.readLine());
+			
 
 			for (int i = 0; i < holdOfferNum; i++) {
 				offering = Arrays.copyOf(offering, offering.length + 1);
@@ -126,29 +129,38 @@ public class MeritBank {
 				int numOfChecking = Integer.valueOf(bufferedReader.readLine());
 				for (int j = 0; j < numOfChecking; j++) {
 					acctH.addCheckingAccount(CheckingAccount.readFromString(bufferedReader.readLine()));
+					
+					int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+					for (int a = 0; a < numOfTransactions; a++) {
+						allTransactions.add(bufferedReader.readLine());
+					}
 				}
-
-				int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
-				for (int a = 0; a < numOfTransactions; a++) {
-					Transaction.readFromString(bufferedReader.readLine());
-				}
-
+				
+				/*Gets the number of savings and runs a for loop based on that value.
+				 * Sends those values to the savings account class to be read into
+				 * for those values.
+				 * Also does the same thing for the number of transactions.
+				 */
 				int numOfSavings = Integer.valueOf(bufferedReader.readLine());
 				for (int k = 0; k < numOfSavings; k++) {
-					/*String s = bufferedReader.readLine();
-					acctH.addSavingsAccount(SavingsAccount.readFromString(s));
-					System.out.println(s);*/
 					acctH.addSavingsAccount(SavingsAccount.readFromString(bufferedReader.readLine()));
+				
+					int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+					for (int b = 0; b < numOfTransactions; b++) {
+						allTransactions.add(bufferedReader.readLine());
+					}
 				}
 
-				numOfTransactions = Integer.valueOf(bufferedReader.readLine());
-				for (int b = 0; b < numOfTransactions; b++) {
-					Transaction.readFromString(bufferedReader.readLine());
-				}
+				
 
 				int numOfCD = Integer.valueOf(bufferedReader.readLine());
 				for (int m = 0; m < numOfCD; m++) {
 					acctH.addCDAccount(CDAccount.readFromString(bufferedReader.readLine()));
+				
+					int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+					for (int b = 0; b < numOfTransactions; b++) {
+						allTransactions.add(bufferedReader.readLine());
+					}
 				}
 
 				newAccountHolders[i] = acctH;

@@ -1,4 +1,5 @@
 package com.meritamerica.assignment4;
+
 import com.meritamerica.assignment4.CheckingAccount;
 import com.meritamerica.assignment4.SavingsAccount;
 
@@ -9,8 +10,7 @@ import com.meritamerica.assignment4.SavingsAccount;
  *  and savings of the user as well for the unique bank account.
  * Created by Robert J
  */
-public class AccountHolder implements Comparable<AccountHolder>  {
-	
+public class AccountHolder implements Comparable<AccountHolder> {
 
 	// All private variables needed in the program
 	private String firstName;
@@ -112,17 +112,17 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	 * Adds new Checking Account if the total is below $250,000 before adding for
 	 * checking and savings combined. created by Robert J
 	 */
-	public CheckingAccount addCheckingAccount(double openingBalance)  throws ExceedsCombinedBalanceLimitException{ 
+	public CheckingAccount addCheckingAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException {
 		if (getCombinedBalance() > 250000) {
-			 throw new ExceedsCombinedBalanceLimitException();
-			}
+			throw new ExceedsCombinedBalanceLimitException();
+		}
 		CheckingAccount checking = new CheckingAccount(openingBalance);
 		CheckingAccount[] tempArray = new CheckingAccount[checkingAccount.length + 1];
 		for (int i = 0; i < this.checkingAccount.length; i++) {
 			tempArray[i] = this.checkingAccount[i];
 		}
-		
-		// need to know more about this if and else if statements 
+
+		// need to know more about this if and else if statements
 		if (getCheckingBalance() + getSavingsBalance() + openingBalance < 250000.00) {
 			tempArray[numberOfCheckingAccount] = checking;
 			numberOfCheckingAccount++;
@@ -132,27 +132,27 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return checking;
 		}
-		checking.addTransaction(new WithdrawTransaction(checking, openingBalance)) ;
+		checking.addTransaction(new DepositTransaction(checking, openingBalance));
 		checkingAccount = tempArray;
 		return checking;
-	
+
 	}
-	
 
 	/*
 	 * Adds new Checking Account if the total is below $250,000 before adding for
 	 * checking and savings combined. created by Robert J
 	 */
-	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)  throws ExceedsCombinedBalanceLimitException{
-		
+	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)
+			throws ExceedsCombinedBalanceLimitException {
+
 		if (getCombinedBalance() > 250000) {
-			 throw new ExceedsCombinedBalanceLimitException();
+			throw new ExceedsCombinedBalanceLimitException();
 		}
 		CheckingAccount[] tempArray = new CheckingAccount[this.checkingAccount.length + 1];
 		for (int i = 0; i < this.checkingAccount.length; i++) {
 			tempArray[i] = this.checkingAccount[i];
 		}
-		// need to know more about this if and else if statements 
+		// need to know more about this if and else if statements
 		if (getCheckingBalance() + getSavingsBalance() + checkingAccount.getBalance() < 250000.00) {
 			tempArray[numberOfCheckingAccount] = checkingAccount;
 			numberOfCheckingAccount++;
@@ -162,7 +162,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return checkingAccount;
 		}
-		checkingAccount.addTransaction(new DepositTransaction(checkingAccount, checkingAccount.getBalance())) ;
+		checkingAccount.addTransaction(new DepositTransaction(checkingAccount, checkingAccount.getBalance()));
 		this.checkingAccount = tempArray;
 		return checkingAccount;
 	}
@@ -196,7 +196,10 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	 * Adds new Saving Account if the total is below $250,000 before adding for
 	 * checking and savings combined. created by Robert J
 	 */
-	public SavingsAccount addSavingsAccount(double openingBalance) {
+	public SavingsAccount addSavingsAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException {
+		if (getCombinedBalance() > 250000) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
 		SavingsAccount savings = new SavingsAccount(openingBalance);
 		SavingsAccount[] tempArray = new SavingsAccount[savingsAccount.length + 1];
 		for (int i = 0; i < this.savingsAccount.length; i++) {
@@ -211,6 +214,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return savings;
 		}
+		savings.addTransaction(new DepositTransaction(savings, openingBalance));
 		savingsAccount = tempArray;
 		return savings;
 	}
@@ -219,7 +223,10 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	 * Adds new savings account in the array of savings account created by Robert
 	 * Johns
 	 */
-	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
+	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws ExceedsCombinedBalanceLimitException {
+		if (getCombinedBalance() > 250000) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
 		SavingsAccount[] tempArray = new SavingsAccount[this.savingsAccount.length + 1];
 		for (int i = 0; i < this.savingsAccount.length; i++) {
 			tempArray[i] = this.savingsAccount[i];
@@ -233,6 +240,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return savingsAccount;
 		}
+		savingsAccount.addTransaction(new DepositTransaction(savingsAccount, savingsAccount.getBalance()));
 		this.savingsAccount = tempArray;
 		return savingsAccount;
 	}
@@ -274,6 +282,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		}
 		tempArray[numberOfCDAccount] = cd;
 		numberOfCDAccount++;
+		cd.addTransaction(new DepositTransaction(cd, openingBalance));
 		cdAccount = tempArray;
 		return cd;
 	}
@@ -289,6 +298,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		}
 		tempArray[numberOfCDAccount] = cdAccount;
 		numberOfCDAccount++;
+		cdAccount.addTransaction(new DepositTransaction(cdAccount, cdAccount.getBalance()));
 		this.cdAccount = tempArray;
 		return cdAccount;
 	}
@@ -327,31 +337,30 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	}
 
 	public String writeToString() {
-    	StringBuilder accountHolderData = new StringBuilder();
-    	accountHolderData.append(firstName).append(",");
-    	accountHolderData.append(middleName).append(",");
-    	accountHolderData.append(lastName).append(",");
-    	accountHolderData.append(ssn);
-    	return accountHolderData.toString();
-    }
+		StringBuilder accountHolderData = new StringBuilder();
+		accountHolderData.append(firstName).append(",");
+		accountHolderData.append(middleName).append(",");
+		accountHolderData.append(lastName).append(",");
+		accountHolderData.append(ssn);
+		return accountHolderData.toString();
+	}
 
 	public static AccountHolder readFromString(String accountHolderData) {
-	    String[] holding = accountHolderData.split(",");
-	    String firstName = holding[0];
-	    String middleName = holding[1];
-	    String lastName = holding[2];
-	    String ssn = holding[3];	
-	    return new AccountHolder(firstName, middleName, lastName, ssn);
+		String[] holding = accountHolderData.split(",");
+		String firstName = holding[0];
+		String middleName = holding[1];
+		String lastName = holding[2];
+		String ssn = holding[3];
+		return new AccountHolder(firstName, middleName, lastName, ssn);
 	}
+
 	@Override
 	public int compareTo(AccountHolder account) {
-		if(this.getCombinedBalance() > account.getCombinedBalance()) {
+		if (this.getCombinedBalance() > account.getCombinedBalance()) {
 			return 1;
 		} else {
 			return -1;
 		}
 	}
 
-
-	
 }
