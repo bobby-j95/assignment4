@@ -12,9 +12,9 @@ import java.util.*;
 abstract class BankAccount {
 
 	// All private variables needed in the program
-	private double balance;
-	public double interestRate;
-	public long accountNumber;
+	protected double balance;
+	protected double interestRate;
+	protected long accountNumber;
 	Date openDate;
 	public List<Transaction> transactions = new ArrayList<Transaction>();
 

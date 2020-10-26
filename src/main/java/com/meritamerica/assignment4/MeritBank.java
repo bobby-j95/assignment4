@@ -258,9 +258,10 @@ public class MeritBank {
 
 	public static double recursiveFutureValue(double amount, int years, double interestRate) {
 		if (years > 0) {
-			double baseAmount = recursiveFutureValue(amount, years - 1, interestRate);
-			double newAmount = baseAmount + (baseAmount * interestRate);
-			return newAmount;
+			//double baseAmount = recursiveFutureValue(amount, years - 1, interestRate);
+			double newAmount = amount + (amount * interestRate);
+			//return newAmount;
+			return recursiveFutureValue(newAmount, years - 1, interestRate);
 		}
 		return amount;
 
@@ -269,6 +270,8 @@ public class MeritBank {
 	public static boolean processTransaction(Transaction transaction)
 			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
 		// where do I ExceedsFraudSuspicionLimitException
+		transaction.process();
+		/*
 		BankAccount tA = transaction.getTargetAccount();
 		BankAccount sA = transaction.getSourceAccount();
 		if (sA == null) {
@@ -307,6 +310,7 @@ public class MeritBank {
 				tA.deposit(transaction.amount);
 			}		
 		}
+		*/
 		return true;
 	}
 
