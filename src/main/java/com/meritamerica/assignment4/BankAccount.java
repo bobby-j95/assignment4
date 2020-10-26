@@ -2,13 +2,18 @@ package com.meritamerica.assignment4;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+=======
+import java.util.*;
+>>>>>>> 4d5d8d487b2d81c970b57934c3bd55cc49855818
 
 /*This is the main Bank Account class that will be the parent to the other bank count classes:
  * SavingsAccount, CheckingAccount, and CDAccount
  * Created by: Robert Johns
+ * Edited by: Eliana Cristina Betancur
  */
 abstract class BankAccount {
 
@@ -17,7 +22,11 @@ abstract class BankAccount {
 	public double interestRate;
 	public long accountNumber;
 	Date openDate;
+<<<<<<< HEAD
 	public List<Transaction> transactions = new ArrayList<>();
+=======
+	public List<Transaction> transactions = new ArrayList<Transaction>();
+>>>>>>> 4d5d8d487b2d81c970b57934c3bd55cc49855818
 
 	// first constructor without account number
 	public BankAccount(double balance, double interestRate) {
