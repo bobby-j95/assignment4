@@ -104,6 +104,15 @@ public abstract class Transaction {
 			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException;
 
 	public boolean isProcessedByFraudTeam() {
+		/*try {
+			process();
+		} catch (NegativeAmountException e) {
+			e.printStackTrace();
+		} catch (ExceedsAvailableBalanceException e) {
+			e.printStackTrace();
+		} catch (ExceedsFraudSuspicionLimitException e) {
+			e.printStackTrace();
+		}*/
 		return isProcessed;
 	}
 

@@ -7,19 +7,19 @@ import java.util.Date;
 public class CDAccount extends BankAccount {
 	private CDOffering offering = null;
 	private Date startDate;
-	//private double balance;
-	private int term = 0;
-
-	// *created by behulum w
+	private double balance;
+	private int term;
 
 	public CDAccount(CDOffering offering, double balance) {
 		super(balance, offering.getInterestRate());
+		this.balance = balance;
 		this.offering = offering;
 		this.startDate = new Date();
 	}
 
 	public CDAccount(long accountNumber, double openBalance, double interestRate, Date accountOpenedOn, int term) {
 		super(accountNumber, openBalance, interestRate, accountOpenedOn);
+		this.balance = openBalance;
 		System.out.println(balance + ":)");
 		this.term = term;
 	}
@@ -29,7 +29,7 @@ public class CDAccount extends BankAccount {
 	}
 
 	public double getInterestRate() {
-		return super.interestRate;
+		return super.getInterestRate();
 	}
 
 	public int getTerm() {
@@ -41,25 +41,27 @@ public class CDAccount extends BankAccount {
 	}
 
 	public long getAccountNumber() {
-		return super.accountNumber;
+		return super.getAccountNumber();
 	}
 
 	public boolean withdraw(double amount) {
-		Date date = new Date();
+		Date date = new Date();  
 		int years = startDate.getYear() - date.getYear();
-		if (years > term) {
-			return true;
+		Transaction t = new WithdrawTransaction(this, amount);
+		if(years > term) {
+	        return true;
 		}
 		return false;
 	}
 
 	public boolean deposit(double amount) {
-		Date date = new Date();  
-		int years =   startDate.getYear() -date.getYear();
-		if(years > term) {
-	        return true;
+		Date date = new Date();
+		int years = startDate.getYear() - date.getYear();
+		Transaction t = new DepositTransaction(this, amount);
+		if (years > term) {
+			return true;
 		}
-        return false;
+		return false;
 	}
 
 	public double futureValue() {
