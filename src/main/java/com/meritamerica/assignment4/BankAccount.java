@@ -2,6 +2,7 @@ package com.meritamerica.assignment4;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ abstract class BankAccount {
 	public double interestRate;
 	public long accountNumber;
 	Date openDate;
-	public List<Transaction> transactions;
+	public List<Transaction> transactions = new ArrayList<>();
 
 	// first constructor without account number
 	public BankAccount(double balance, double interestRate) {

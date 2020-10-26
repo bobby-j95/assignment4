@@ -168,6 +168,10 @@ public class MeritBank {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
+		} catch (ExceedsCombinedBalanceLimitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
 		}
 
 	}
@@ -252,7 +256,7 @@ public class MeritBank {
 			getFraudQueue().addTransaction(transaction);
 			throw new ExceedsFraudSuspicionLimitException();
 		}
-		if (transaction.getAmount() > 0) {
+		if (Double.compare(transaction.amount, 0.0) < 0) {
 			throw new NegativeAmountException();
 		}
 		if (transaction instanceof WithdrawTransaction && transaction.getAmount()<transaction.getTargetAccount().getBalance()) {
