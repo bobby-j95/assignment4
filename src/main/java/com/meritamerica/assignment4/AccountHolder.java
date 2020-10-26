@@ -12,385 +12,384 @@ import com.meritamerica.assignment4.SavingsAccount;
  */
 public class AccountHolder implements Comparable<AccountHolder> {
 
-    // All private variables needed in the program
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String ssn;
-    private double checkingAccountBalance;
-    private double savingsAccountBalance;
-    private double cdAccountBalance;
-    private int numberOfCDAccount;
-    private int numberOfSavingsAccount;
-    private int numberOfCheckingAccount;
-    private double totalBalance;
-    private SavingsAccount[] savingsAccount = new SavingsAccount[0];
-    private CheckingAccount[] checkingAccount = new CheckingAccount[0];
-    private CDAccount[] cdAccount = new CDAccount[0];
+	// All private variables needed in the program
+	private String firstName;
+	private String middleName;
+	private String lastName;
+	private String ssn;
+	private double checkingAccountBalance;
+	private double savingsAccountBalance;
+	private double cdAccountBalance;
+	private int numberOfCDAccount;
+	private int numberOfSavingsAccount;
+	private int numberOfCheckingAccount;
+	private double totalBalance;
+	private SavingsAccount[] savingsAccount = new SavingsAccount[0];
+	private CheckingAccount[] checkingAccount = new CheckingAccount[0];
+	private CDAccount[] cdAccount = new CDAccount[0];
 
-    /*
-     * Default constructor Created by Behulum W
-     */
-    public AccountHolder() {
+	/*
+	 * Default constructor Created by Behulum W
+	 */
+	public AccountHolder() {
 
-    }
+	}
 
-    /*
-     * Constructor with initial values Created by Robert J
-     */
-    public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.ssn = ssn;
-        this.numberOfSavingsAccount = 0;
-        this.numberOfCheckingAccount = 0;
-        this.numberOfCDAccount = 0;
-        this.cdAccountBalance = 0;
-        this.checkingAccountBalance = 0;
-        this.savingsAccountBalance = 0;
-        this.totalBalance = 0;
-    }
+	/*
+	 * Constructor with initial values Created by Robert J
+	 */
+	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.ssn = ssn;
+		this.numberOfSavingsAccount = 0;
+		this.numberOfCheckingAccount = 0;
+		this.numberOfCDAccount = 0;
+		this.cdAccountBalance = 0;
+		this.checkingAccountBalance = 0;
+		this.savingsAccountBalance = 0;
+		this.totalBalance = 0;
+	}
 
-    /*
-     * Setter for first name created by behulum w
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	/*
+	 * Setter for first name created by behulum w
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    /*
-     * getter for first name created by behulum w
-     */
-    public String getFirstName() {
-        return firstName;
-    }
+	/*
+	 * getter for first name created by behulum w
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
 
-    /*
-     * Setter for middle name created by Robert J
-     */
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
+	/*
+	 * Setter for middle name created by Robert J
+	 */
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
 
-    /*
-     * getter for middle name created by Robert J
-     */
-    public String getMiddleName() {
-        return middleName;
-    }
+	/*
+	 * getter for middle name created by Robert J
+	 */
+	public String getMiddleName() {
+		return middleName;
+	}
 
-    /*
-     * Setter for last name created by behulum w
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	/*
+	 * Setter for last name created by behulum w
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    /*
-     * getter for last name created by behulum w
-     */
-    public String getLastName() {
-        return lastName;
-    }
+	/*
+	 * getter for last name created by behulum w
+	 */
+	public String getLastName() {
+		return lastName;
+	}
 
-    /*
-     * Setter for Social Security Number created by Robert J
-     */
-    public void setSSN(String ssn) {
-        this.ssn = ssn;
-    }
+	/*
+	 * Setter for Social Security Number created by Robert J
+	 */
+	public void setSSN(String ssn) {
+		this.ssn = ssn;
+	}
 
-    /*
-     * getter for Social Security Number created by Robert J
-     */
-    public String getSSN() {
-        return ssn;
-    }
+	/*
+	 * getter for Social Security Number created by Robert J
+	 */
+	public String getSSN() {
+		return ssn;
+	}
 
-    /*
-     * Adds new Checking Account if the total is below $250,000 before adding for
-     * checking and savings combined. created by Robert J
-     */
-    public CheckingAccount addCheckingAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException {
-        if (getCombinedBalance() > 250000) {
-            throw new ExceedsCombinedBalanceLimitException();
-        }
-        CheckingAccount checking = new CheckingAccount(openingBalance);
-        CheckingAccount[] tempArray = new CheckingAccount[checkingAccount.length + 1];
-        for (int i = 0; i < this.checkingAccount.length; i++) {
-            tempArray[i] = this.checkingAccount[i];
-        }
+	/*
+	 * Adds new Checking Account if the total is below $250,000 before adding for
+	 * checking and savings combined. created by Robert J
+	 */
+	public CheckingAccount addCheckingAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException {
+		if (getCombinedBalance() > 250000) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		CheckingAccount checking = new CheckingAccount(openingBalance);
+		CheckingAccount[] tempArray = new CheckingAccount[checkingAccount.length + 1];
+		for (int i = 0; i < this.checkingAccount.length; i++) {
+			tempArray[i] = this.checkingAccount[i];
+		}
 
-        // need to know more about this if and else if statements
-        if (getCheckingBalance() + getSavingsBalance() + openingBalance < 250000.00) {
-            tempArray[numberOfCheckingAccount] = checking;
-            numberOfCheckingAccount++;
-        } else if (numberOfSavingsAccount > numberOfCheckingAccount) {
-            tempArray[numberOfCheckingAccount] = checking;
-            numberOfCheckingAccount++;
-        } else {
-            return checking;
-        }
-        checking.addTransaction(new DepositTransaction(checking, openingBalance));
-        checkingAccount = tempArray;
-        return checking;
+		// need to know more about this if and else if statements
+		if (getCheckingBalance() + getSavingsBalance() + openingBalance < 250000.00) {
+			tempArray[numberOfCheckingAccount] = checking;
+			numberOfCheckingAccount++;
+		} else if (numberOfSavingsAccount > numberOfCheckingAccount) {
+			tempArray[numberOfCheckingAccount] = checking;
+			numberOfCheckingAccount++;
+		} else {
+			return checking;
+		}
+		checking.addTransaction(new DepositTransaction(checking, openingBalance));
+		checkingAccount = tempArray;
+		return checking;
 
-    }
+	}
 
-    /*
-     * Adds new Checking Account if the total is below $250,000 before adding for
-     * checking and savings combined. created by Robert J
-     */
-    public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)
-            throws ExceedsCombinedBalanceLimitException {
+	/*
+	 * Adds new Checking Account if the total is below $250,000 before adding for
+	 * checking and savings combined. created by Robert J
+	 */
+	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)
+			throws ExceedsCombinedBalanceLimitException {
 
-        if (getCombinedBalance() > 250000) {
-            throw new ExceedsCombinedBalanceLimitException();
-        }
-        CheckingAccount[] tempArray = new CheckingAccount[this.checkingAccount.length + 1];
-        for (int i = 0; i < this.checkingAccount.length; i++) {
-            tempArray[i] = this.checkingAccount[i];
-        }
-        // need to know more about this if and else if statements
-        if (getCheckingBalance() + getSavingsBalance() + checkingAccount.getBalance() < 250000.00) {
-            tempArray[numberOfCheckingAccount] = checkingAccount;
-            numberOfCheckingAccount++;
-        } else if (numberOfSavingsAccount > numberOfCheckingAccount) {
-            tempArray[numberOfCheckingAccount] = checkingAccount;
-            numberOfCheckingAccount++;
-        } else {
-            return checkingAccount;
-        }
-        checkingAccount.addTransaction(new DepositTransaction(checkingAccount, checkingAccount.getBalance()));
-        this.checkingAccount = tempArray;
-        return checkingAccount;
-    }
+		if (getCombinedBalance() > 250000) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		CheckingAccount[] tempArray = new CheckingAccount[this.checkingAccount.length + 1];
+		for (int i = 0; i < this.checkingAccount.length; i++) {
+			tempArray[i] = this.checkingAccount[i];
+		}
+		// need to know more about this if and else if statements
+		if (getCheckingBalance() + getSavingsBalance() + checkingAccount.getBalance() < 250000.00) {
+			tempArray[numberOfCheckingAccount] = checkingAccount;
+			numberOfCheckingAccount++;
+		} else if (numberOfSavingsAccount > numberOfCheckingAccount) {
+			tempArray[numberOfCheckingAccount] = checkingAccount;
+			numberOfCheckingAccount++;
+		} else {
+			return checkingAccount;
+		}
+		checkingAccount.addTransaction(new DepositTransaction(checkingAccount, checkingAccount.getBalance()));
+		this.checkingAccount = tempArray;
+		return checkingAccount;
+	}
 
-    /*
-     * getter for checking Account array created by Robert J
-     */
-    public CheckingAccount[] getCheckingAccounts() {
-        return checkingAccount;
-    }
+	/*
+	 * getter for checking Account array created by Robert J
+	 */
+	public CheckingAccount[] getCheckingAccounts() {
+		return checkingAccount;
+	}
 
-    /*
-     * getter for number of checking accounts created by Robert Johns
-     */
-    public int getNumberOfCheckingAccounts() {
-        return numberOfCheckingAccount;
-    }
+	/*
+	 * getter for number of checking accounts created by Robert Johns
+	 */
+	public int getNumberOfCheckingAccounts() {
+		return numberOfCheckingAccount;
+	}
 
-    /*
-     * getter for checking balance for all accounts together created by Robert J
-     */
-    public double getCheckingBalance() {
-        checkingAccountBalance = 0;
-        for (CheckingAccount x : checkingAccount) {
-            checkingAccountBalance += x.getBalance();
-        }
-        return checkingAccountBalance;
-    }
+	/*
+	 * getter for checking balance for all accounts together created by Robert J
+	 */
+	public double getCheckingBalance() {
+		checkingAccountBalance = 0;
+		for (CheckingAccount x : checkingAccount) {
+			checkingAccountBalance += x.getBalance();
+		}
+		return checkingAccountBalance;
+	}
 
-    /*
-     * Adds new Saving Account if the total is below $250,000 before adding for
-     * checking and savings combined. created by Robert J
-     */
-    public SavingsAccount addSavingsAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException {
-        if (getCombinedBalance() > 250000) {
-            throw new ExceedsCombinedBalanceLimitException();
-        }
-        SavingsAccount savings = new SavingsAccount(openingBalance);
-        SavingsAccount[] tempArray = new SavingsAccount[savingsAccount.length + 1];
-        for (int i = 0; i < this.savingsAccount.length; i++) {
-            tempArray[i] = this.savingsAccount[i];
-        }
-        if (getCheckingBalance() + getSavingsBalance() + openingBalance < 250000) {
-            tempArray[numberOfSavingsAccount] = savings;
-            numberOfSavingsAccount++;
-        } else if (numberOfCheckingAccount > numberOfSavingsAccount) {
-            tempArray[numberOfSavingsAccount] = savings;
-            numberOfSavingsAccount++;
-        } else {
-            return savings;
-        }
-        savings.addTransaction(new DepositTransaction(savings, openingBalance));
-        savingsAccount = tempArray;
-        return savings;
-    }
+	/*
+	 * Adds new Saving Account if the total is below $250,000 before adding for
+	 * checking and savings combined. created by Robert J
+	 */
+	public SavingsAccount addSavingsAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException {
+		if (getCombinedBalance() > 250000) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		SavingsAccount savings = new SavingsAccount(openingBalance);
+		SavingsAccount[] tempArray = new SavingsAccount[savingsAccount.length + 1];
+		for (int i = 0; i < this.savingsAccount.length; i++) {
+			tempArray[i] = this.savingsAccount[i];
+		}
+		if (getCheckingBalance() + getSavingsBalance() + openingBalance < 250000) {
+			tempArray[numberOfSavingsAccount] = savings;
+			numberOfSavingsAccount++;
+		} else if (numberOfCheckingAccount > numberOfSavingsAccount) {
+			tempArray[numberOfSavingsAccount] = savings;
+			numberOfSavingsAccount++;
+		} else {
+			return savings;
+		}
+		savings.addTransaction(new DepositTransaction(savings, openingBalance));
+		savingsAccount = tempArray;
+		return savings;
+	}
 
-    /*
-     * Adds new savings account in the array of savings account created by Robert
-     * Johns
-     */
-    public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws ExceedsCombinedBalanceLimitException {
-        if (getCombinedBalance() > 250000) {
-            throw new ExceedsCombinedBalanceLimitException();
-        }
-        SavingsAccount[] tempArray = new SavingsAccount[this.savingsAccount.length + 1];
-        for (int i = 0; i < this.savingsAccount.length; i++) {
-            tempArray[i] = this.savingsAccount[i];
-        }
-        if (getCheckingBalance() + getSavingsBalance() + savingsAccount.getBalance() < 250000) {
-            tempArray[numberOfSavingsAccount] = savingsAccount;
-            numberOfSavingsAccount++;
-        } else if (numberOfCheckingAccount > numberOfSavingsAccount) {
-            tempArray[numberOfSavingsAccount] = savingsAccount;
-            numberOfSavingsAccount++;
-        } else {
-            return savingsAccount;
-        }
-        savingsAccount.addTransaction(new DepositTransaction(savingsAccount, savingsAccount.getBalance()));
-        this.savingsAccount = tempArray;
-        return savingsAccount;
-    }
+	/*
+	 * Adds new savings account in the array of savings account created by Robert
+	 * Johns
+	 */
+	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws ExceedsCombinedBalanceLimitException {
+		if (getCombinedBalance() > 250000) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		SavingsAccount[] tempArray = new SavingsAccount[this.savingsAccount.length + 1];
+		for (int i = 0; i < this.savingsAccount.length; i++) {
+			tempArray[i] = this.savingsAccount[i];
+		}
+		if (getCheckingBalance() + getSavingsBalance() + savingsAccount.getBalance() < 250000) {
+			tempArray[numberOfSavingsAccount] = savingsAccount;
+			numberOfSavingsAccount++;
+		} else if (numberOfCheckingAccount > numberOfSavingsAccount) {
+			tempArray[numberOfSavingsAccount] = savingsAccount;
+			numberOfSavingsAccount++;
+		} else {
+			return savingsAccount;
+		}
+		savingsAccount.addTransaction(new DepositTransaction(savingsAccount, savingsAccount.getBalance()));
+		this.savingsAccount = tempArray;
+		return savingsAccount;
+	}
 
-    /*
-     * getter for saving Account array created by Robert J
-     */
-    public SavingsAccount[] getSavingsAccounts() {
-        return savingsAccount;
-    }
+	/*
+	 * getter for saving Account array created by Robert J
+	 */
+	public SavingsAccount[] getSavingsAccounts() {
+		return savingsAccount;
+	}
 
-    /*
-     * getter for number of savings accounts created by Robert Johns
-     */
-    public int getNumberOfSavingsAccounts() {
-        return numberOfSavingsAccount;
-    }
+	/*
+	 * getter for number of savings accounts created by Robert Johns
+	 */
+	public int getNumberOfSavingsAccounts() {
+		return numberOfSavingsAccount;
+	}
 
-    /*
-     * getter for saving balance for all accounts together created by Robert J
-     */
-    public double getSavingsBalance() {
-        savingsAccountBalance = 0;
-        for (SavingsAccount y : savingsAccount) {
-            savingsAccountBalance += y.getBalance();
-        }
-        return savingsAccountBalance;
-    }
+	/*
+	 * getter for saving balance for all accounts together created by Robert J
+	 */
+	public double getSavingsBalance() {
+		savingsAccountBalance = 0;
+		for (SavingsAccount y : savingsAccount) {
+			savingsAccountBalance += y.getBalance();
+		}
+		return savingsAccountBalance;
+	}
 
-    /*
-     * adds to cdAccount array if parameters of a new cdAccount are passed in
-     * created by Robert Johns
-     */
+	/*
+	 * adds to cdAccount array if parameters of a new cdAccount are passed in
+	 * created by Robert Johns
+	 */
 
-    public CDAccount addCDAccount(CDOffering offering, double openingBalance) throws
-            ExceedsFraudSuspicionLimitException {
-        CDAccount cd = new CDAccount(offering, openingBalance);
-        CDAccount[] tempArray = new CDAccount[this.cdAccount.length + 1];
-        for (int i = 0; i < this.cdAccount.length; i++) {
-            tempArray[i] = this.cdAccount[i];
-        }
-        tempArray[numberOfCDAccount] = cd;
-        numberOfCDAccount++;
-        Transaction t = new DepositTransaction(cd, openingBalance);
-        cd.addTransaction(t);
-        try {
-            t.process();
-        } catch (NegativeAmountException e) {
-            e.printStackTrace();
-        } catch (ExceedsAvailableBalanceException e) {
-            e.printStackTrace();
-        } catch (ExceedsFraudSuspicionLimitException e) {
-            throw new ExceedsFraudSuspicionLimitException();
-        }
-        cdAccount = tempArray;
-        return cd;
-    }
+	public CDAccount addCDAccount(CDOffering offering, double openingBalance)
+			throws ExceedsFraudSuspicionLimitException {
+		CDAccount cd = new CDAccount(offering, openingBalance);
+		CDAccount[] tempArray = new CDAccount[this.cdAccount.length + 1];
+		for (int i = 0; i < this.cdAccount.length; i++) {
+			tempArray[i] = this.cdAccount[i];
+		}
+		tempArray[numberOfCDAccount] = cd;
+		numberOfCDAccount++;
+		Transaction t = new DepositTransaction(cd, openingBalance);
+		cd.addTransaction(t);
+		try {
+			t.process();
+		} catch (NegativeAmountException e) {
+			e.printStackTrace();
+		} catch (ExceedsAvailableBalanceException e) {
+			e.printStackTrace();
+		} catch (ExceedsFraudSuspicionLimitException e) {
+			throw new ExceedsFraudSuspicionLimitException();
+		}
+		cdAccount = tempArray;
+		return cd;
+	}
 
+	/*
+	 * adds to cdAcount array if CDAccount class is the parameter created by Robert
+	 * Johns
+	 */
+	public CDAccount addCDAccount(CDAccount cdAccount) {
+		CDAccount[] tempArray = new CDAccount[this.cdAccount.length + 1];
+		tempArray[numberOfCDAccount] = cdAccount;
+		numberOfCDAccount++;
+		for (int i = 0; i < this.cdAccount.length; i++) {
+			tempArray[i] = this.cdAccount[i];
+		}
+		Transaction t = new DepositTransaction(cdAccount, cdAccount.getBalance());
+		cdAccount.addTransaction(t);
 
-    /*
-     * adds to cdAcount array if CDAccount class is the parameter created by Robert
-     * Johns
-     */
-    public CDAccount addCDAccount(CDAccount cdAccount) {
-        CDAccount[] tempArray = new CDAccount[this.cdAccount.length + 1];
-        tempArray[numberOfCDAccount] = cdAccount;
-        numberOfCDAccount++;
-        for (int i = 0; i < this.cdAccount.length; i++) {
-            tempArray[i] = this.cdAccount[i];
-        }
-        Transaction t = new DepositTransaction(cdAccount, cdAccount.getBalance());
-        cdAccount.addTransaction(t);
+		this.cdAccount = tempArray;
+		/*try {
+			t.process();
+		} catch (NegativeAmountException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return cdAccount;
+		} catch (ExceedsAvailableBalanceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return cdAccount;
+		} catch (ExceedsFraudSuspicionLimitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return cdAccount;
+		}*/
+		return cdAccount;
+	}
 
-        this.cdAccount = tempArray;
-        try {
-            t.process();
-        } catch (NegativeAmountException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return cdAccount;
-        } catch (ExceedsAvailableBalanceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return cdAccount;
-        } catch (ExceedsFraudSuspicionLimitException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return cdAccount;
-        }
-        return cdAccount;
-    }
+	/*
+	 * getter for cdAccount array created by Robert Johns
+	 */
+	public CDAccount[] getCDAccounts() {
+		return cdAccount;
+	}
 
-    /*
-     * getter for cdAccount array created by Robert Johns
-     */
-    public CDAccount[] getCDAccounts() {
-        return cdAccount;
-    }
+	/*
+	 * getter for number of CDAccounds created by Robert Johns
+	 */
+	public int getNumberOfCDAccounts() {
+		return numberOfCDAccount;
+	}
 
-    /*
-     * getter for number of CDAccounds created by Robert Johns
-     */
-    public int getNumberOfCDAccounts() {
-        return numberOfCDAccount;
-    }
+	public double getCDBalance() {
+		cdAccountBalance = 0;
+		for (CDAccount z : cdAccount) {
+			cdAccountBalance += z.getBalance();
+		}
+		return cdAccountBalance;
+	}
 
-    public double getCDBalance() {
-        cdAccountBalance = 0;
-        for (CDAccount z : cdAccount) {
-            cdAccountBalance += z.getBalance();
-        }
-        return cdAccountBalance;
-    }
+	/*
+	 * getter for total balance for all accounts together created by Robert J
+	 */
+	public double getCombinedBalance() {
+		/*
+		 * totalBalance = checkingAccountBalance + savingsAccountBalance +
+		 * cdAccountBalance; return totalBalance;
+		 */
+		return (getCheckingBalance() + getSavingsBalance() + getCDBalance());
+	}
 
-    /*
-     * getter for total balance for all accounts together created by Robert J
-     */
-    public double getCombinedBalance() {
-        /*
-         * totalBalance = checkingAccountBalance + savingsAccountBalance +
-         * cdAccountBalance; return totalBalance;
-         */
-        return (getCheckingBalance() + getSavingsBalance() + getCDBalance());
-    }
+	public String writeToString() {
+		StringBuilder accountHolderData = new StringBuilder();
+		accountHolderData.append(firstName).append(",");
+		accountHolderData.append(middleName).append(",");
+		accountHolderData.append(lastName).append(",");
+		accountHolderData.append(ssn);
+		return accountHolderData.toString();
+	}
 
-    public String writeToString() {
-        StringBuilder accountHolderData = new StringBuilder();
-        accountHolderData.append(firstName).append(",");
-        accountHolderData.append(middleName).append(",");
-        accountHolderData.append(lastName).append(",");
-        accountHolderData.append(ssn);
-        return accountHolderData.toString();
-    }
+	public static AccountHolder readFromString(String accountHolderData) {
+		String[] holding = accountHolderData.split(",");
+		String firstName = holding[0];
+		String middleName = holding[1];
+		String lastName = holding[2];
+		String ssn = holding[3];
+		return new AccountHolder(firstName, middleName, lastName, ssn);
+	}
 
-    public static AccountHolder readFromString(String accountHolderData) {
-        String[] holding = accountHolderData.split(",");
-        String firstName = holding[0];
-        String middleName = holding[1];
-        String lastName = holding[2];
-        String ssn = holding[3];
-        return new AccountHolder(firstName, middleName, lastName, ssn);
-    }
-
-    @Override
-    public int compareTo(AccountHolder account) {
-        if (this.getCombinedBalance() > account.getCombinedBalance()) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
+	@Override
+	public int compareTo(AccountHolder account) {
+		if (this.getCombinedBalance() > account.getCombinedBalance()) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
 
 }
