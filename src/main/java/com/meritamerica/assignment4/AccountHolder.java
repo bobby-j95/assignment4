@@ -112,7 +112,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	 * Adds new Checking Account if the total is below $250,000 before adding for
 	 * checking and savings combined. created by Robert J
 	 */
-	public CheckingAccount addCheckingAccount(double openingBalance)  throws ExceedsCombinedBalanceLimitException{
+	public CheckingAccount addCheckingAccount(double openingBalance)  throws ExceedsCombinedBalanceLimitException{ 
 		if (getCombinedBalance() > 250000) {
 			 throw new ExceedsCombinedBalanceLimitException();
 			}
@@ -162,11 +162,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return checkingAccount;
 		}
-<<<<<<< HEAD
-		checkingAccount.addTransaction(new WithdrawTransaction(checkingAccount, checkingAccountBalance));
-=======
 		checkingAccount.addTransaction(new DepositTransaction(checkingAccount, checkingAccount.getBalance())) ;
->>>>>>> 4d5d8d487b2d81c970b57934c3bd55cc49855818
 		this.checkingAccount = tempArray;
 		return checkingAccount;
 	}
@@ -200,10 +196,7 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 	 * Adds new Saving Account if the total is below $250,000 before adding for
 	 * checking and savings combined. created by Robert J
 	 */
-	public SavingsAccount addSavingsAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException, NegativeAmountException {
-		if (getCombinedBalance() > 250000) {
-			 throw new ExceedsCombinedBalanceLimitException();
-		}
+	public SavingsAccount addSavingsAccount(double openingBalance) {
 		SavingsAccount savings = new SavingsAccount(openingBalance);
 		SavingsAccount[] tempArray = new SavingsAccount[savingsAccount.length + 1];
 		for (int i = 0; i < this.savingsAccount.length; i++) {
@@ -218,21 +211,15 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return savings;
 		}
-		savings.addTransaction(new DepositTransaction(savings, openingBalance)) ;
 		savingsAccount = tempArray;
 		return savings;
 	}
-		
-
 
 	/*
 	 * Adds new savings account in the array of savings account created by Robert
 	 * Johns
 	 */
-	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws ExceedsCombinedBalanceLimitException {
-		if (getCombinedBalance() > 250000) {
-			 throw new ExceedsCombinedBalanceLimitException();
-		}
+	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
 		SavingsAccount[] tempArray = new SavingsAccount[this.savingsAccount.length + 1];
 		for (int i = 0; i < this.savingsAccount.length; i++) {
 			tempArray[i] = this.savingsAccount[i];
@@ -246,12 +233,9 @@ public class AccountHolder implements Comparable<AccountHolder>  {
 		} else {
 			return savingsAccount;
 		}
-		savingsAccount.addTransaction(new WithdrawTransaction(savingsAccount, cdAccountBalance ));
 		this.savingsAccount = tempArray;
 		return savingsAccount;
-
-		}
-	
+	}
 
 	/*
 	 * getter for saving Account array created by Robert J

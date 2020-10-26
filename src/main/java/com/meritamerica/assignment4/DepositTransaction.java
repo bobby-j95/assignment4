@@ -26,26 +26,5 @@ public class DepositTransaction extends Transaction {
 			targetAccount.deposit(amount);
 		}
 	}
-<<<<<<< HEAD
-	
-	public DepositTransaction(BankAccount targetAccount, double amount) {
-		this.targetAccount = targetAccount;
-		this.amount = amount;
-//		try {
-//			process();
-//		} catch (NegativeAmountException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ExceedsAvailableBalanceException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ExceedsFraudSuspicionLimitException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-	//	} 
-		this.openDate = new Date();
-	}
-=======
->>>>>>> 4d5d8d487b2d81c970b57934c3bd55cc49855818
 
 }

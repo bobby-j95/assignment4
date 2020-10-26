@@ -135,10 +135,10 @@ public class MeritBank {
 
 				int numOfSavings = Integer.valueOf(bufferedReader.readLine());
 				for (int k = 0; k < numOfSavings; k++) {
-					String s = bufferedReader.readLine();
+					/*String s = bufferedReader.readLine();
 					acctH.addSavingsAccount(SavingsAccount.readFromString(s));
-					// acctH.addSavingsAccount(SavingsAccount.readFromString(bufferedReader.readLine()));
-					System.out.println(s);
+					System.out.println(s);*/
+					acctH.addSavingsAccount(SavingsAccount.readFromString(bufferedReader.readLine()));
 				}
 
 				numOfTransactions = Integer.valueOf(bufferedReader.readLine());
@@ -156,10 +156,10 @@ public class MeritBank {
 			setNextAccountNumber(nextAccountNumber);
 			cdOffering = offering;
 			accountHolderArray = newAccountHolders;
-			/*int numberOfFraudQueueTransactions = Integer.valueOf(bufferedReader.readLine());
+			int numberOfFraudQueueTransactions = Integer.valueOf(bufferedReader.readLine());
 			for(int fqt = 0; fqt < numberOfFraudQueueTransactions; fqt++) {
 				fraudQueue.addTransaction(Transaction.readFromString(bufferedReader.readLine()));
-			}*/
+			}
 			reader.close();
 			return true;
 		} catch (FileNotFoundException e) {
@@ -255,25 +255,6 @@ public class MeritBank {
 	}
 
 	public static boolean processTransaction(Transaction transaction)
-<<<<<<< HEAD
-			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException { // where
-																													// do
-																													// I
-																													// throw
-																													// ExceedsFraudSuspicionLimitException
-		if (transaction.getAmount() > 1000) {
-			getFraudQueue().addTransaction(transaction);
-			throw new ExceedsFraudSuspicionLimitException();
-		}
-		if (Double.compare(transaction.amount, 0.0) < 0) {
-			throw new NegativeAmountException();
-		}
-		if (transaction instanceof WithdrawTransaction && transaction.getAmount()<transaction.getTargetAccount().getBalance()) {
-			throw new ExceedsAvailableBalanceException();
-		}
-		if (transaction.getAmount() < transaction.getSourceAccount().getBalance()) {
-			throw new ExceedsAvailableBalanceException();
-=======
 			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
 		// where do I ExceedsFraudSuspicionLimitException
 		BankAccount tA = transaction.getTargetAccount();
@@ -306,16 +287,13 @@ public class MeritBank {
 			if (transaction.getAmount() < 0) {
 				throw new NegativeAmountException();
 			}
-			/*
-			 * if (transaction.getAmount() < transaction.getTargetAccount().getBalance()) {
-			 * throw new ExceedsAvailableBalanceException(); }
-			 */
 			if (transaction.getAmount() > transaction.getSourceAccount().getBalance()) {
 				throw new ExceedsAvailableBalanceException();
->>>>>>> 4d5d8d487b2d81c970b57934c3bd55cc49855818
 
-			}
-			
+			} else {
+				sA.withdraw(transaction.amount);
+				tA.deposit(transaction.amount);
+			}		
 		}
 		return true;
 	}
